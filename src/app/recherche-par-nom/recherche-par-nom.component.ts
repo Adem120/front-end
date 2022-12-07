@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Machine } from '../model/model.component';
 import { AuthService } from '../services/auth.service';
 import { MachineServices } from '../services/services.component';
+
 @Component({
-  selector: 'app-machine',
-  templateUrl: './machine.component.html',
-
+  selector: 'app-recherche-par-nom',
+  templateUrl: './recherche-par-nom.component.html',
+  styleUrls: ['./recherche-par-nom.component.css']
 })
-export class MachineComponent implements OnInit {
-  machine! : Machine[];
+export class RechercheParNomComponent implements OnInit {
+machines!:Machine[]
+machine!:Machine[];
+  constructor(public authService:AuthService,private machineservice:MachineServices,private router:Router ) { }
 
+  ngOnInit(): void {
+  this.machineservice.listeMachine().subscribe(mach =>{
+    this.machines=mach;
+  })
 
-    constructor(private machineservice: MachineServices ,private router:Router,public authService:AuthService) {
-     // this.machine= machineservice.listeMachine();
+  
   }
-  ngOnInit(){
-     
-    this.machineservice.listeMachine().subscribe(machin => {
-      console.log(machin);
-      this.machine = machin;
-  });}
- 
+  onKeyUp(filterText : string) {
+    this.machine = this.machines.filter(machine => machine.nom!.toLowerCase().includes(filterText.toLowerCase())); 
+  }
   supprimerMachine(machin: Machine)
   {
     Swal.fire({
@@ -42,8 +43,8 @@ export class MachineComponent implements OnInit {
   });
  
   }
-  this.router.navigate(['machine']).then(() => {
+  this.router.navigate(['recherche-par-nom']).then(() => {
     window.location.reload();
     });
     })}
-  }
+}

@@ -4,27 +4,39 @@
     <title>Gestion des Machine</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <a class="navbar-brand" href="#">Gestion Machine</a>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark" *ngIf="authService.isloggedIn">
+      <a class="navbar-brand"  routerLink="login">Gestion Machine</a>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/produits">Home</a>
+          <a  *ngIf="authService.isloggedIn"class="nav-link" routerLink="/produits">Home</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> employeurs</a>
+          <a  *ngIf="authService.isloggedIn"class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Machine</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" routerLink="add-machine">Ajouter</a>
-            <a class="dropdown-item" href="#">Lister</a>
+            <a *ngIf="authService.isAdmin()"  class="dropdown-item" routerLink="add-machine">Ajouter</a>
+            <a class="dropdown-item" routerLink="machine">Lister</a>
+            <a class="dropdown-item" routerLink="recherche-par-categorie">Rechercher Par categorie</a>
+            <a class="dropdown-item" routerLink="recherche-par-nom">Rechercher Par Nom
+            </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          
+          <a *ngIf="authService.isloggedIn" class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Utilisation</a>
+          <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="utilisation">Liste</a>
+        </div>
+          <div class="dropdown-menu">
+
           </div>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">[username]</a>
+          <a *ngIf="authService.isloggedIn" class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">{{authService.loggedUser}}</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Login</a>
-            <a class="dropdown-item" href="#">Logout</a>
-            <a class="dropdown-item" href="#">Profile</a>
+            <a *ngIf="!authService.isloggedIn" class="dropdown-item" routerLink="login">Login</a>
+            <a *ngIf="authService.isloggedIn"class="dropdown-item" (click)="authService.logout()">Logout</a>
           </div>
         </li>
       </ul>

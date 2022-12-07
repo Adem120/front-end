@@ -1,51 +1,75 @@
 import {  Injectable } from '@angular/core';
-import { Machine } from '../model/model.component';
+import { Machine, Utulisation } from '../model/model.component';
 import { Router } from '@angular/router';
-
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+const httpOptions = {
+  headers: new HttpHeaders( {'Content-Type': 'application/json'} )
+  };
 @Injectable({
   providedIn: 'root'
   })
 export class MachineServices  {
-machines: Machine[];
+machines!: Machine[];
 machine!: Machine;
-  constructor(private router:Router) { 
-  this.machines = [
-    { idmachine : 1, nommachine : "machine1",  prixmachine: 900, dateachat: new Date("01/14/2019")},
-    { idmachine : 2, nommachine : "machine2", prixmachine : 560, dateachat : new Date("12/17/2018")},
-    {idmachine : 3, nommachine :"machine3", prixmachine : 500, dateachat : new Date("02/20/2020")}
-    ];
+utlisation!:Utulisation[];
+uti?:Utulisation;
+apiURL: string = 'http://localhost:8081/api/machine';
+apiURL1: string = 'http://localhost:8081/api/utilisation';
+constructor(private http : HttpClient,private authService:AuthService) {
+  this.listeUtilisation().subscribe(utlis => {
+    this.utlisation = utlis
+  })
   }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  listeMachine(): Observable<Machine[]>{
+    
+    return this.http.get<Machine[]>(this.apiURL);
+    }
+    listeUtilisation(): Observable<Utulisation[]>{
+
+      return this.http.get<Utulisation[]>(this.apiURL1);
+      }
+  ajouterMachine( mach: Machine):Observable<Machine>{
+    
+    return this.http.post<Machine>(this.apiURL,mach);
   }
-  listeMachines():Machine[] {
-    return this.machines;
+  ajouteUtilusation(utl:Utulisation):Observable<Utulisation>{
+   
+    return this.http.post<Utulisation>(this.apiURL1,utl)
   }
-  ajouterMachine( prod: Machine){
-  this.machines.push(prod);
-  this.router.navigate(['/machine'])
-  }
-  supprimerMachine( prod: Machine){
-  //supprimer le produit prod du tableau produits
-  const index = this.machines.indexOf(prod, 0);
-  if (index > -1) {
-  this.machines.splice(index, 1);
-  }
+  supprimerMachine( id: number){
+ 
+    const url = `${this.apiURL}/${id}`;
+    return this.http.delete(url);
 
 }
-consulterMachine(id:number): Machine{
-  this.machine= this.machines.find(p => p.idmachine == id)!;
-  return this.machine;
-  }
-  updateMachine(p:Machine)
-{
-// console.log(p);
-this.supprimerMachine(p);
-this.ajouterMachine(p);
-this.trierMachine();
+consulterMachine(id:number):Observable<Machine>{
+  
+  const url = `${this.apiURL}/${id}`;
+  return this.http.get<Machine>(url);
+}
+ 
+
+  updateMachine(p:Machine): Observable<Machine>{
+    
+  return this.http.put<Machine>(this.apiURL,p)
+}
+findUtlisation(id:number){
+  this.uti=this.utlisation.find(utli =>utli.idutili==id)
+  return this.uti
 
 }
-trierMachine(){
+supprimerUtilusation( id: number){
+  const url = `${this.apiURL1}/${id}`;
+  return this.http.delete(url);
+
+}
+consulterUtilisation(id:number):Observable<Utulisation>{
+  const url=`${this.apiURL1}/${id}`
+  return this.http.get<Utulisation>(url)
+}
+/*rierMachine(){
   this.machines= this.machines.sort((n1,n2) => {
   if (n1.idmachine! > n2.idmachine!) {
   return 1;
@@ -55,5 +79,5 @@ trierMachine(){
   }
   return 0;
   });
-  }
+  }*/
 }

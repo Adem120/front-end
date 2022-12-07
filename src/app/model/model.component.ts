@@ -1,6 +1,11 @@
 export class Machine{
-  idmachine?:number;
-  nommachine?:string;
-  prixmachine?:number;
+  idMachine!:number;
+  nom?:string;
+  prix?:number;
   dateachat?: Date;
+  utulisation!:Utulisation;
+}
+export class Utulisation{
+  nomUtilisation!:String;
+  idutili!:number;
 }

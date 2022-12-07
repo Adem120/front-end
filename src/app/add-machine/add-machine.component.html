@@ -1,30 +1,32 @@
 <div class="container">
     <div>
-    <h2>Ajouter un employeur :</h2>
+    <h2>Ajouter une Machine :</h2>
     </div>
     <form >
-        <div class="col-sm-2 col-md-2 col-lg-2">
-        <label >ID employeur</label>
-        <input type="text" [(ngModel)]="newMachine.idmachine"
-        name="idmachine" class="form-control">
-        </div>
+       
         <div class="col-sm-4 col-md-4 col-lg-4" >
-        <label >Nom  employeur</label>
-        <input type="text"[(ngModel)]= "newMachine.nommachine"
+        <label >Nom  Machine</label>
+        <input type="text"[(ngModel)]= "newMachine.nom"
         name="nomProduit" class="form-control">
         </div>
         <div class="col-sm-2 col-md-2 col-lg-2">
-        <label >salaire</label>
-        <input type="number" [(ngModel)]= "newMachine.prixmachine"
+        <label >prix d'achat</label>
+        <input type="number" [(ngModel)]= "newMachine.prix"
         name="prixProduit" class="form-control">
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4">
-        <label >Date rectretement</label>
+        <label >Date d'achat</label>
         <input type="date" [(ngModel)]= "newMachine.dateachat"
         name="dateCreation" class="form-control">
         </div>
+        <div class="mb-3">
+            <label for="exampleInputCat" class="form-label">Utilusation</label>
+            <select class="form-control form-control-lg" aria-label="Default select example" [(ngModel)]= "id" name="idutili" id="exampleInputCat">
+              <option *ngFor="let utl of utlisation" [ngValue]="utl.idutili">{{utl.nomUtilisation}}</option>
+            </select>
+          </div>
         <div class="mt-2">
-        <button type="submit" (click)="addMachine()"class="btn btn-success">Ajouter</button>
+        <button type="submit"[disabled]="!newMachine.nom||!newMachine.prix||!newMachine.dateachat||!id" (click)="addMachine()"class="btn btn-success">Ajouter</button>
         </div>
         </form>
         

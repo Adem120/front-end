@@ -1,34 +1,39 @@
 <div class="container">
     <div>
-    <h2>Modifier un  employeur :</h2>
+    <h2>Modifier une machine :</h2>
     </div>
     <form >
         <div  class="col-sm-2 col-md-2 col-lg-2">
-            <label >ID  employeur</label>
-            <input readonly type="text" [(ngModel)]="currentMachine.idmachine"
-            name="idProduit" class="form-control">
+            <label >ID  </label>
+            <input readonly type="text"  [(ngModel)]= "currentMachine.idMachine"
+            name="IdMachine" class="form-control">
             </div>
     <div class="col-sm-4 col-md-4 col-lg-4" >
-    <label >Nom  employeur</label>
-    <input type="text"[(ngModel)]= "currentMachine.nommachine"
-    name="nomProduit" class="form-control">
+    <label >Machine</label>
+    <input type="text" [(ngModel)]= "currentMachine.nom" name="nom" class="form-control">
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
-    <label >salaire</label>
-    <input type="number" [(ngModel)]= "currentMachine.prixmachine"
-    name="prixProduit" class="form-control">
+    <label >Prix</label>
+    <input type="number" [(ngModel)]= "currentMachine.prix"
+    name="prix" class="form-control">
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
 
-<label >Date rectretement</label>
+<label >Date d'achat</label>
 
 <input type="date" [ngModel]="currentMachine.dateachat| date: 'yyyy-MM-dd'"
 (ngModelChange)=" currentMachine.dateachat= $event" name="dateCreation"
 class="form-control">
 </div>
+<div class="mb-3">
+    <label for="exampleInputCat" class="form-label">Utilusation</label>
+    <select class="form-control form-control-lg" aria-label="Default select example" [(ngModel)]="id" name="idutili" id="exampleInputCat">
+      <option *ngFor="let utl of utlisation" [ngValue]="utl.idutili">{{utl.nomUtilisation}}</option>
+    </select>
+  </div>
 <div class="mt-2">
 
-<button type="submit" (click)="updateProduit()" class="btn btn-success">Modifer</button>
+<button type="submit" (click)="updateMachine()" class="btn btn-success">Modifer</button>
 
 </div>
 </form>
